@@ -1,6 +1,7 @@
 package pl.coderslab.service;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import pl.coderslab.entity.Book;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 @Component
 public class MemoryBookService {
     private Map<Long, Book> list;
+    private long INIT_BOOKS = 3;
 
     public MemoryBookService() {
         list = new HashMap<Long, Book>();
@@ -46,6 +48,26 @@ public class MemoryBookService {
     public void deleteBook(long id) {
         if (id > 0 && list.get(id) != null) {
             list.remove(id);
+        }
+    }
+
+    public long getNextId() {
+        INIT_BOOKS++;
+        return INIT_BOOKS;
+    }
+
+    public void addBook(Book book) {
+        long id = getNextId();
+        if (book != null) {
+            book.setId(id);
+            list.put(id, book);
+        }
+    }
+
+    public void addBook(String isbn, String title, String author, String publisher, String type) {
+        long id = getNextId();
+        if (!StringUtils.isEmpty(isbn) && !StringUtils.isEmpty(author) && !StringUtils.isEmpty(title)) {
+            list.put(id, new Book(id, isbn, title, author, publisher, type));
         }
     }
 }
