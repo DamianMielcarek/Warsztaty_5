@@ -1,3 +1,3 @@
-# Warsztaty_5
+# Workshop_5
 
 Spring REST API for Book catalog.
